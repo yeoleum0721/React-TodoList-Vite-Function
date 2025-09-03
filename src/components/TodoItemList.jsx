@@ -2,7 +2,13 @@ import { memo } from 'react';
 import PropTypes from 'prop-types';
 import TodoItem from './TodoItem';
 
-const TodoItemList = ({ myTodos, myToggle, myRemove }) => {
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAllTodos } from '@/reducers/todoSlice';
+
+const TodoItemList = ({ myToggle, myRemove }) => {
+  const myTodos = useSelector((state) => state.todos);
+  const dispatch = useDispatch();
+
   const todoList = myTodos.map(
     ({ id, text, checked }) => (
       <TodoItem
