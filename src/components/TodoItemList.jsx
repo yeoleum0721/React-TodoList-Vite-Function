@@ -1,13 +1,21 @@
-import { memo } from 'react';
-import PropTypes from 'prop-types';
-import TodoItem from './TodoItem';
-
+import { memo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
+import TodoItem from './TodoItem';
 import { fetchAllTodos } from '@/reducers/todoSlice';
 
 const TodoItemList = ({ myToggle, myRemove }) => {
   const myTodos = useSelector((state) => state.todos);
   const dispatch = useDispatch();
+  /*
+    action 함수 dispatch 하기
+    useEffect() hook
+    componentDidMount + componentDidUpdate + componentWillUnMount
+  */
+  useEffect(() => {
+    console.log('fetchAllTodos');
+    dispatch(fetchAllTodos());
+  },[dispatch]);
 
   const todoList = myTodos.map(
     ({ id, text, checked }) => (
@@ -27,12 +35,6 @@ const TodoItemList = ({ myToggle, myRemove }) => {
       {todoList}
     </div>
   );
-};
-
-TodoItemList.propTypes = {
-  myTodos: PropTypes.array,
-  myToggle: PropTypes.func,
-  myRemove: PropTypes.func
 };
 
 // memo를 사용하여 shouldComponentUpdate 대체
